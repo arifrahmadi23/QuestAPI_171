@@ -7,34 +7,48 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.pertemuan13.ui.view.DestinasiDetail
 import com.example.pertemuan13.ui.view.DestinasiEntry
 import com.example.pertemuan13.ui.view.DestinasiHome
+import com.example.pertemuan13.ui.view.DetailScreen
 import com.example.pertemuan13.ui.view.EntryMhsScreen
 import com.example.pertemuan13.ui.view.HomeScreen
 
 @Composable
-fun PengelolaHalaman(navController: NavHostController = rememberNavController()){
+fun PengelolaHalaman(navController: NavHostController = rememberNavController()) {
     NavHost(
         navController = navController,
         startDestination = DestinasiHome.route,
         modifier = Modifier,
-    ){
-        composable(DestinasiHome.route){
+    ) {
+        // HomeScreen composable
+        composable(DestinasiHome.route) {
             HomeScreen(
-                navigateToItemEntry = {navController.navigate(DestinasiEntry.route)},
-                onDetailClick = {
-
+                navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
+                onDetailClick = { nim ->
+                    navController.navigate("${DestinasiDetail.route}/$nim")
                 }
             )
         }
-        composable(DestinasiEntry.route){
+
+        // EntryMhsScreen composable
+        composable(DestinasiEntry.route) {
             EntryMhsScreen(navigateBack = {
-                navController.navigate(DestinasiHome.route){
-                    popUpTo(DestinasiHome.route){
+                navController.navigate(DestinasiHome.route) {
+                    popUpTo(DestinasiHome.route) {
                         inclusive = true
                     }
                 }
             })
+        }
+
+        // DetailScreen composable with argument
+        composable(DestinasiDetail.routeWithArg) { backStackEntry ->
+            val nim = backStackEntry.arguments?.getString(DestinasiDetail.NIM) ?: ""
+            DetailScreen(
+                navigateBack = { navController.popBackStack() },
+                onEditClick = { /* Handle edit click */ }
+            )
         }
     }
 }
