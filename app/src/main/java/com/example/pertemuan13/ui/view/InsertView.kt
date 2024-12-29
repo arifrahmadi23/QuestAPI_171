@@ -4,8 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pertemuan13.navigation.DestinasiNavigasi
 import com.example.pertemuan13.ui.viewmodel.InsertUiEvent
+import com.example.pertemuan13.ui.viewmodel.InsertUiState
 import com.example.pertemuan13.ui.viewmodel.InsertViewModel
 import com.example.pertemuan13.ui.viewmodel.PenyediaViewModel
 
@@ -30,6 +33,32 @@ fun EntryMhsScreen(
     viewModel: InsertViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ){
 
+}
+
+@Composable
+fun EntryBody(
+    insertUiState: InsertUiState,
+    onMahasiswaValueChange: (InsertUiEvent) -> Unit,
+    onSaveClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(18.dp),
+        modifier = modifier.padding(12.dp)
+    ) {
+        FormInput(
+            insertUiEvent = insertUiState.insertUiEvent,
+            onValueChange = onMahasiswaValueChange,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Button(
+            onClick = onSaveClick,
+            shape = MaterialTheme.shapes.small,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Simpan")
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
