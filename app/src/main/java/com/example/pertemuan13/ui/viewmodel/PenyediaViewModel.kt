@@ -5,14 +5,22 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import coil.decode.BitmapFactoryDecoder
 import com.example.pertemuan13.MahasiswaApplications
 import okhttp3.EventListener
 
-object PenyediaViewModel{
+object PenyediaViewModel {
     val Factory = viewModelFactory {
-        initializer { HomeViewModel(aplikasiMahasiswa().container.mahasiswaRepository) }
-        initializer { InsertViewModel(aplikasiMahasiswa().container.mahasiswaRepository) }
+        // Penyedia untuk HomeViewModel
+        initializer {
+            HomeViewModel(aplikasiMahasiswa().container.mahasiswaRepository)
+        }
+
+        // Penyedia untuk InsertViewModel
+        initializer {
+            InsertViewModel(aplikasiMahasiswa().container.mahasiswaRepository)
+        }
+
+        // Penyedia untuk DetailViewModel
         initializer {
             val savedStateHandle = this.createSavedStateHandle()
             DetailViewModel(
@@ -21,6 +29,14 @@ object PenyediaViewModel{
             )
         }
 
+        // Penyedia untuk UpdateViewModel
+        initializer {
+            val savedStateHandle = this.createSavedStateHandle()
+            UpdateViewModel(
+                savedStateHandle = savedStateHandle,
+                mahasiswaRepository = aplikasiMahasiswa().container.mahasiswaRepository
+            )
+        }
     }
 }
 
